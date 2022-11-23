@@ -41,3 +41,23 @@ You can exit the virtual environment by typing `deactivate`.
 After running `pytest` once, which will unzip the `*.tar.gz` files in `tests/repo_fixture`, you can manually examine each of the test repositories inside the `tests/repo_fixture` directory as a way to debug your implementation. The `example-repo-1` will be the first test repository, etc. After `cd` into the test repository, you can run your `topo_order_commits.py` script to see the output of your implementation on that repository.
 
 In the pytest output, if `test_topo_order_constraint[1]` shows up as a failure, the `[1]` means the test case is based on `example-repo-1`, etc.
+
+---
+
+**Added by Vincent Lin:**
+
+To test individual test cases, set the environment variable `TEST_REPO_IDS` to a whitespace-separated list of example repository IDs to test (integers between 1 and 8, inclusive). Example usages:
+
+```console
+$ export TEST_REPO_IDS="1 4 7"
+$ pytest
+$ export TEST_REPO_IDS=$(seq 2 6)
+$ pytest
+```
+
+To go back to testing with all test cases, simply delete this environment variable:
+
+```console
+$ unset TEST_REPO_IDS
+```
+
