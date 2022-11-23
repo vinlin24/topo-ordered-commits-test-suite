@@ -10,7 +10,7 @@ Please do the following in order to run the test cases.
 
 ```
 git clone https://github.com/vinlin24/topo-ordered-commits-test-suite test-suite-fork
-cd topo-ordered-commits-test-suite
+cd test-suite-fork
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -U -r requirements.txt
