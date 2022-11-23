@@ -7,8 +7,31 @@ import pytest
 
 from topo_order_commits import topo_order_commits
 
+# Added for testing specific test cases
+import sys
 
-@pytest.mark.parametrize("repo_id", list(range(1, 9)))
+repo_id_range = range(1, 9)
+repo_id_list = list(repo_id_range)
+
+TEST_REPO_IDS = os.environ.get("TEST_REPO_IDS")
+if TEST_REPO_IDS is not None:
+    repo_id_list = []
+    for num_str in TEST_REPO_IDS.split():
+        try:
+            num = int(num_str)
+            if num not in range(1, 9):
+                raise ValueError
+            repo_id_list.append(num)
+        except ValueError:
+            sys.stderr.write(f"Invalid repo ID {num_str!r} in environment "
+                             "variable TEST_REPO_IDS. Must be a whitespace-"
+                             "separated list of integers in the range "
+                             f"[{repo_id_range.start}, {repo_id_range.stop})."
+                             "\n")
+            sys.exit(1)
+
+
+@pytest.mark.parametrize("repo_id", repo_id_list)
 @pytest.mark.timeout(10)
 def test_topo_order_constraint(repo_id, capsys):
     run_topo_order_commits_on_repo(repo_id)
@@ -27,7 +50,7 @@ def test_topo_order_constraint(repo_id, capsys):
                 raise TopoSortError(f'{child} has to precede {p} in a topological order')
 
 
-@pytest.mark.parametrize("repo_id", list(range(1, 9)))
+@pytest.mark.parametrize("repo_id", repo_id_list)
 @pytest.mark.timeout(10)
 def test_sticky_starts_and_ends(repo_id, capsys):
     run_topo_order_commits_on_repo(repo_id)
@@ -100,7 +123,7 @@ def test_sticky_starts_and_ends(repo_id, capsys):
                 raise TopoSortError(f'The commit {parent} after {child} is not its parent')
 
 
-@pytest.mark.parametrize("repo_id", list(range(1, 9)))
+@pytest.mark.parametrize("repo_id", repo_id_list)
 @pytest.mark.timeout(10)
 def test_branch_heads(repo_id, capsys):
     run_topo_order_commits_on_repo(repo_id)
