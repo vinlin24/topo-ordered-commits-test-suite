@@ -44,7 +44,7 @@ In the pytest output, if `test_topo_order_constraint[1]` shows up as a failure, 
 
 ---
 
-**Added by Vincent Lin:**
+## Added by Vincent Lin:
 
 To test individual test cases, set the environment variable `TEST_REPO_IDS` to a whitespace-separated list of example repository IDs to test (integers between 1 and 8, inclusive). Example usages:
 
